@@ -1,0 +1,9 @@
+.entryLink {
+    text-decoration: underline;
+    color: #5b9aff;
+    font-size: 30px;
+}
+
+.entryLink:hover {
+    cursor: pointer;
+}
