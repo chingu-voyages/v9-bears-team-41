@@ -1,10 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
+
+app.use(cors());
 
 const port = 3001;
 
-app.get('/', function (req, res) {
-  res.send('hello world!')
-});
+const router = require('./router.js');
+
+app.use('/', router);
 
 app.listen(port, () => console.log(`Server listening on port ${port}!`));

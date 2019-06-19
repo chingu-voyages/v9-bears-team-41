@@ -5,7 +5,7 @@ class EntryListPage extends Component {
     render() {
         return (
             <div id="EntryListPage">
-                <EntryLink entryName='this is entry 1' />
+                <EntryLink entryName='Entry 1' />
             </div>
         );
     }
