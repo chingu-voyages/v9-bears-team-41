@@ -5,6 +5,7 @@ RUN apt-get update && \
 
 COPY package-lock.json /package-lock.json
 COPY package.json /package.json
+COPY redis-client.js /redis-client.js
 COPY router.js /router.js
 COPY server.js /server.js
 

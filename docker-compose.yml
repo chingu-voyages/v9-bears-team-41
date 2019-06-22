@@ -8,13 +8,21 @@ services:
 
     server_service:
         image: path/to/registry/server_service:master
-        command: node server.js
+        command: /bin/bash -c "npm run start-prod"
         ports:
             - 3001:3001
         depends_on:
             - redis_service
+        networks:
+            - redis
 
     redis_service:
         image: redis:5.0.5-alpine
         ports:
             - 6379:6379
+        networks:
+            - redis
+
+networks:
+    redis:
+        external: false
