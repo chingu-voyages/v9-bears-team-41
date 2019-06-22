@@ -5,6 +5,7 @@ RUN apt-get update && \
 
 COPY package-lock.json /package-lock.json
 COPY package.json /package.json
+COPY router.js /router.js
 COPY server.js /server.js
 
 RUN npm install
