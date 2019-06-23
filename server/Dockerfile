@@ -5,8 +5,9 @@ RUN apt-get update && \
 
 COPY package-lock.json /package-lock.json
 COPY package.json /package.json
+COPY file-route.js /file-route.js
 COPY redis-client.js /redis-client.js
-COPY router.js /router.js
 COPY server.js /server.js
+COPY storage.js /storage.js
 
 RUN npm install
