@@ -11,7 +11,7 @@ router.get('/:id', (req, res) => {
     res.send(`id: ${id}`);
 });
 
-router.post('/', upload.single('wikiEntry'), (req, res) => {
+router.post('/', upload.single('file'), (req, res) => {
     const file = req.file;
     if (!file) {
         const error = new Error('No file uploaded!');
