@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "REDIS_HOST=localhost node server.js",
-    "start-prod": "REDIS_HOST=redis_service node server.js"
+    "start": "REDIS_HOST=localhost STORAGE_PATH=wiki/entries node server.js",
+    "start-prod": "REDIS_HOST=redis_service STORAGE_PATH=/wiki/entries node server.js"
   },
   "author": "",
   "license": "ISC",

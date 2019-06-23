@@ -17,6 +17,7 @@ router.post('/', upload.single('file'), (req, res) => {
     if (!file) {
         const error = new Error('No file uploaded!');
         error.httpStatusCode = 400;
+        console.error(error);
         return res.send(error);
     }
     res.send(`{"status": "${originalFileName} saved!"}`);

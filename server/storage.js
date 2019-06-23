@@ -1,7 +1,8 @@
 const multer = require('multer');
 
-// const storagePath = '/wiki/files';
-const storagePath = 'wiki/files';
+// dev: wiki/entries
+// docker: /wiki/entries
+const storagePath = process.env.STORAGE_PATH;
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
