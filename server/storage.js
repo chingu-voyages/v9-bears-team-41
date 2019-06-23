@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const currentTime = Date.now();
-        cb(null, `${file.fieldname}-${currentTime}` + '.md');
+        cb(null, `${file.originalname}-${currentTime}` + '.md');
     }
 });
 

@@ -13,12 +13,13 @@ router.get('/:id', (req, res) => {
 
 router.post('/', upload.single('file'), (req, res) => {
     const file = req.file;
+    const originalFileName = file.originalname;
     if (!file) {
         const error = new Error('No file uploaded!');
         error.httpStatusCode = 400;
-        return next(error);
+        return res.send(error);
     }
-    res.send(`File with filename: ${file.filename} saved!`);
+    res.send(`{"status": "${originalFileName} saved!"}`);
 });
 
 const redisClient = getRedisClient();
