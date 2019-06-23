@@ -9,9 +9,10 @@ const storage = multer.diskStorage({
         cb(null, storagePath);
     },
     filename: (req, file, cb) => {
-        const currentTime = Date.now();
+        // TODO: save current time to meta file
+        // const currentTime = Date.now();
         const fileNameWithoutExtension = file.originalname.split('.')[0];
-        cb(null, `${fileNameWithoutExtension}-${currentTime}` + '.md');
+        cb(null, `${fileNameWithoutExtension}` + '.md');
     }
 });
 

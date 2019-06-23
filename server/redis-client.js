@@ -1,4 +1,5 @@
 const redis = require('redis');
+const { promisify } = require('util');
 
 const redisHost = process.env.REDIS_HOST;
 
@@ -10,6 +11,7 @@ function getRedisClient() {
         console.error('Error:', error);
     });
     client.on('end', () => console.log('Redis client connection closed!'));
+    client.getAsync = promisify(client.get);
     return client;
 }
 
