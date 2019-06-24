@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { AppContext } from '../AppContext';
 import './EntryLink.css';
 
-const EntryLink = React.memo(function EntryButton(props) {
+const EntryLink = React.memo(props => {
     const appContext = useContext(AppContext);
     const entryName = props.entryName;
     const url = `entry?${entryName}`

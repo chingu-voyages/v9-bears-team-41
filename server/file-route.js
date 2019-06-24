@@ -3,8 +3,28 @@ const { upload } = require('./storage');
 const redis = require('redis');
 const { getRedisClient } = require('./redis-client');
 
+function makeInternalError() {
+    const error = new Error('Internal Server Error!');
+    error.httpStatusCode = 500;
+    return error;
+}
+
 router.get('/count', (req, res) => {
-    res.send('helloooooo');
+    res.json('helloooooo');
+});
+
+router.get('/all', (req, res) => {
+    const redisClient = getRedisClient();
+    redisClient.keysAsync('*')
+        .then(keys => {
+            const keysJson = JSON.stringify(keys);
+            res.json( {names: keysJson} );
+        })
+        .catch(error => {
+            console.error(error);
+            const responseError = makeInternalError();
+            return res.json(responseError);
+        })
 });
 
 router.get('/:filename', (req, res) => {
@@ -16,13 +36,12 @@ router.get('/:filename', (req, res) => {
             console.log(`value: ${value}`);
             const filePath = value.toString();
             redisClient.quit();
-            res.send(`{"url": "${filePath}"}`)
+            res.json({ url: filePath });
         })
         .catch(error => {
             console.error(error);
-            const responseError = new Error('Internal Server Error!');
-            responseError.httpStatusCode = 500;
-            return res.send(responseError);
+            const responseError = makeInternalError();
+            return res.json(responseError);
         });
 });
 
@@ -33,7 +52,7 @@ router.post('/', upload.single('file'), (req, res) => {
         const error = new Error('No file uploaded!');
         error.httpStatusCode = 400;
         console.error(error);
-        return res.send(error);
+        return res.json(error);
     }
 
     const fileNameWithoutExtension = file.originalname.split('.')[0];
@@ -42,7 +61,7 @@ router.post('/', upload.single('file'), (req, res) => {
     redisClient.set(fileNameWithoutExtension, filePath, redis.print);
     redisClient.quit();
 
-    res.send(`{"status": "${originalFileName} saved!"}`);
+    res.json( {status: `"${originalFileName} saved!"`} );
 });
 
 module.exports = router;

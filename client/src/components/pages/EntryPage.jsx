@@ -15,13 +15,15 @@ class EntryPage extends Component {
         console.log(entryName);
 
         // const url = 'https://gist.githubusercontent.com/Robbertdk/348939c16bae20b80edc/raw/360985914320ee79cf813855d49264a841d8dd57/markdown-dummy';
-        const url = 'http://localhost:3001/' + entryName;
+        const url = 'http://localhost:3001/file/' + entryName;
 
         try {
             const response = await fetch(url);
             if (!response.ok) { throw new Error(response.statusText); }
-            const text = await response.text();
-            this.setState({ markdownString: text });
+            const responseJson = await response.json();
+            console.log(responseJson);
+            const fileUrl = responseJson.url;
+            this.setState({ markdownString: fileUrl });
         } catch (error) {
             console.error(error);
         }

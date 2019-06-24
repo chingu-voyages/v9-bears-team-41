@@ -12,6 +12,8 @@ function getRedisClient() {
     client.on('end', () => console.log('Redis client connection closed!'));
 
     client.getAsync = promisify(client.get);
+    client.keysAsync = promisify(client.keys);
+
     return client;
 }
 
