@@ -22,8 +22,14 @@ class EntryPage extends Component {
             if (!response.ok) { throw new Error(response.statusText); }
             const responseJson = await response.json();
             console.log(responseJson);
+
             const fileUrl = responseJson.url;
-            this.setState({ markdownString: fileUrl });
+            const fileFetchResponse = await fetch(fileUrl);
+            if (!fileFetchResponse.ok) { throw new Error(fileFetchResponse.statusText); }
+            console.log(fileFetchResponse);
+            const markdownString = await fileFetchResponse.text();
+
+            this.setState({ markdownString: markdownString });
         } catch (error) {
             console.error(error);
         }

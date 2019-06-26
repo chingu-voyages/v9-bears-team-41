@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { upload } = require('./storage');
 const redis = require('redis');
 const { getRedisClient } = require('./redis-client');
+const { serverUrl } = require('./config');
 
 function makeInternalError() {
     const error = new Error('Internal Server Error!');
@@ -34,9 +35,10 @@ router.get('/:filename', (req, res) => {
     redisClient.getAsync(filename)
         .then(value => {
             console.log(`value: ${value}`);
-            const filePath = value.toString();
+            console.log(`File: ${filename} exist!`);
             redisClient.quit();
-            res.json({ url: filePath });
+            const url = `${serverUrl}/${filename}.md`
+            res.json({ url: url });
         })
         .catch(error => {
             console.error(error);
