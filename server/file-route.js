@@ -25,7 +25,7 @@ router.get('/all', (req, res) => {
             console.error(error);
             const responseError = makeInternalError();
             return res.json(responseError);
-        })
+        });
 });
 
 router.get('/:filename', (req, res) => {
@@ -64,6 +64,21 @@ router.post('/', upload.single('file'), (req, res) => {
     redisClient.quit();
 
     res.json( {status: `"${originalFileName} saved!"`} );
+});
+
+router.post('/search', (req, res) => {
+    const searchString = req.body.searchString;
+    const redisClient = getRedisClient();
+    redisClient.keysAsync('*')
+        .then(keys => {
+            const matchingKeys = keys.filter(value => value.includes(searchString));
+            res.json(matchingKeys);
+        })
+        .catch(error => {
+            console.error(error);
+            const responseError = makeInternalError();
+            return res.json(responseError);
+        });
 });
 
 module.exports = router;
