@@ -1,22 +1,22 @@
 version: '3.5'
 
 services:
-    app_service:
-        image: path/to/registry/app_service:master
-        ports:
-            - 80:80
+    # app_service:
+    #     image: path/to/registry/app_service:master
+    #     ports:
+    #         - 80:80
 
-    server_service:
-        image: path/to/registry/server_service:master
-        command: /bin/bash -c "npm run start-prod"
-        ports:
-            - 3001:3001
-        depends_on:
-            - redis_service
-        networks:
-            - redis
-        volumes:
-            - wikientries:/wiki/entries
+    # server_service:
+    #     image: path/to/registry/server_service:master
+    #     command: /bin/bash -c "npm run start-prod"
+    #     ports:
+    #         - 3001:3001
+    #     depends_on:
+    #         - redis_service
+    #     networks:
+    #         - redis
+    #     volumes:
+    #         - wikientries:/wiki/entries
 
     redis_service:
         image: redis:5.0.5-alpine

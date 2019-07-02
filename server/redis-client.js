@@ -8,7 +8,10 @@ function getRedisClient() {
 
     client.on('connect', () => console.log('Redis client connected!'));
     client.on('ready', () => console.log('Redis client ready!'));
-    client.on('error', error => console.error('Error:', error));
+    client.on('error', error => {
+        console.error('Error:', error);
+        client.quit();
+    });
     client.on('end', () => console.log('Redis client connection closed!'));
 
     client.getAsync = promisify(client.get);

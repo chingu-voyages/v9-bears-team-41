@@ -18,6 +18,7 @@ router.get('/all', (req, res) => {
     const redisClient = getRedisClient();
     redisClient.keysAsync('*')
         .then(keys => {
+            redisClient.quit();
             const keysJson = JSON.stringify(keys);
             res.json( {names: keysJson} );
         })
@@ -71,6 +72,7 @@ router.post('/search', (req, res) => {
     const redisClient = getRedisClient();
     redisClient.keysAsync('*')
         .then(keys => {
+            redisClient.quit();
             const matchingKeys = keys.filter(value => value.includes(searchString));
             res.json(matchingKeys);
         })
