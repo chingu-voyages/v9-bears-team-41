@@ -1,0 +1,36 @@
+
+#searchBar {
+    margin: 2em auto;
+    text-align: center;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+}
+
+#searchBarInput {
+    background-color: #f1f1f1;
+    margin: 10px;
+    border: none;
+}
+
+#searchBarInput > input {
+    border: none;
+    border-bottom: 2px solid #7b7b7b31;
+    color: black;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#searchBarButton {
+    background-color: #f1f1f1;
+    margin: 10px;
+}
+
+#searchBarButton > button {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ffa60031;
+    box-shadow: 0px 1px 1px #c4c4c4;
+}
