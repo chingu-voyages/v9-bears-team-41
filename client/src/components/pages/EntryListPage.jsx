@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import EntryLink from '../EntryLink';
 import './EntryListPage.css';
+import SearchBar from '../SearchBar';
 
 class EntryListPage extends Component {
     constructor(props) {
@@ -35,6 +36,7 @@ class EntryListPage extends Component {
 
         return (
             <div id="EntryListPage">
+                <SearchBar />
                 {entryLinkRenders}
             </div>
         );
