@@ -12,10 +12,6 @@ class SearchBar extends Component {
         };
     }
 
-    async componentDidMount() {
-        const searchUrl = 'localhost:3001/file/search';
-    }
-
     inputHandler(e) {
         this.setState({ inputValue: e.target.value });
     }

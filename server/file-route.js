@@ -10,10 +10,6 @@ function makeInternalError() {
     return error;
 }
 
-router.get('/count', (req, res) => {
-    res.json('helloooooo');
-});
-
 router.get('/all', (req, res) => {
     const redisClient = getRedisClient();
     redisClient.keysAsync('*')
@@ -74,7 +70,8 @@ router.post('/search', (req, res) => {
         .then(keys => {
             redisClient.quit();
             const matchingKeys = keys.filter(value => value.includes(searchString));
-            res.json(matchingKeys);
+            const matchingKeysJson = JSON.stringify(matchingKeys);
+            res.json({ names: matchingKeysJson });
         })
         .catch(error => {
             console.error(error);
