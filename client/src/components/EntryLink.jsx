@@ -8,11 +8,10 @@ const EntryLink = React.memo(props => {
     const entryName = props.entryName;
     const url = `entry?${entryName}`
     return (
-        <div
-            className='entryLink'
-            onClick={() => appContext.history.push(url)}
-        >
-            {entryName}
+        <div className='entryLink'>
+            <p onClick={() => appContext.history.push(url)}>
+                {entryName}
+            </p>
         </div>
     );
 });
