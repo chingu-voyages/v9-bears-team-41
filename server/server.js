@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { storagePath } = require('./config');
+const { populateRedis } = require('./redis-populate');
+
+populateRedis();
 
 const app = express();
 

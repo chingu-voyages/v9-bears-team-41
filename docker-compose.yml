@@ -1,10 +1,10 @@
 version: '3.5'
 
 services:
-    # app_service:
-    #     image: path/to/registry/app_service:master
-    #     ports:
-    #         - 80:80
+    app_service:
+        image: path/to/registry/app_service:master
+        ports:
+            - 80:80
 
     server_service:
         image: path/to/registry/server_service:master
