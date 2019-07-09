@@ -35,7 +35,6 @@ class UploadPage extends Component {
     render() {
         return (
             <div>
-                <p>This is the upload page</p>
                 <FileUploadForm
                     acceptedFileType='.md'
                     uploadFile={this.uploadFile}

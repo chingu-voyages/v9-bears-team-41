@@ -7,6 +7,7 @@ import { Router, Route } from 'react-router-dom';
 import EntryPage from './components/pages/EntryPage';
 import EntryListPage from './components/pages/EntryListPage';
 import UploadPage from './components/pages/UploadPage';
+import TopBar from './components/TopBar';
 
 const history = createBrowserHistory();
 
@@ -15,6 +16,7 @@ class App extends Component {
         return (
             <div id="App">
                 <AppContext.Provider value={{history: history}}>
+                    <TopBar />
                     <Router history={history}>
                         <Route exact path='/' component={EntryListPage} />
                         <Route path='/entry' component={EntryPage} />

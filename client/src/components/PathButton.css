@@ -1,0 +1,14 @@
+.PathButton {
+    text-align: center;
+}
+
+.PathButton > p {
+    border: 2px solid #00ffb3;
+    margin: 0 auto;
+    max-width: 10em;
+    border-radius: 12px;
+}
+
+.PathButton > p:hover {
+    cursor: pointer;
+}
