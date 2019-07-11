@@ -4,12 +4,6 @@ const redis = require('redis');
 const { getRedisClient } = require('./redis-client');
 const { serverUrl } = require('./config');
 
-function makeInternalError() {
-    const error = new Error('Internal Server Error!');
-    error.httpStatusCode = 500;
-    return error;
-}
-
 router.get('/all', (req, res) => {
     const redisClient = getRedisClient();
     redisClient.keysAsync('*')
@@ -19,48 +13,52 @@ router.get('/all', (req, res) => {
             res.json( {names: keysJson} );
         })
         .catch(error => {
+            redisClient.quit();
             console.error(error);
-            const responseError = makeInternalError();
-            return res.json(responseError);
+            return res.status(500).send(error);
         });
 });
 
 router.get('/:filename', (req, res) => {
-    const filename = req.params.filename;
+    const fileName = req.params.filename;
 
     const redisClient = getRedisClient();
-    redisClient.getAsync(filename)
-        .then(value => {
-            console.log(`value: ${value}`);
-            console.log(`File: ${filename} exist!`);
+    redisClient.getAsync(fileName)
+        .then(originalFileName => {
+            console.log(`Original file name: ${originalFileName}`);
+            if (originalFileName === null) {
+                const errorMessage = `${fileName} doesn't exit!`;
+                console.error(errorMessage);
+                return res.status(404).send(errorMessage);
+            }
             redisClient.quit();
-            const url = `${serverUrl}/${filename}.md`
-            res.json({ url: url });
+            const url = `${serverUrl}/${originalFileName}`
+            return res.json({ url: url });
         })
         .catch(error => {
+            redisClient.quit();
             console.error(error);
-            const responseError = makeInternalError();
-            return res.json(responseError);
+            return res.status(500).send(error);
         });
 });
 
 router.post('/', upload.single('file'), (req, res) => {
     const file = req.file;
-    const originalFileName = file.originalname;
     if (!file) {
-        const error = new Error('No file uploaded!');
-        error.httpStatusCode = 400;
-        console.error(error);
-        return res.json(error);
+        const errorMessage = 'No file uploaded!';
+        console.error(errorMessage);
+        return res.status(400).send(errorMessage);
     }
 
-    const fileNameWithoutExtension = file.originalname.split('.')[0];
+    const fileOriginalName = file.originalname;
+    const fileNameWithoutExtension = fileOriginalName.split('.')[0];
     const filePath = file.path;
+    console.log(`File saved at path: ${filePath}`);
     const redisClient = getRedisClient();
-    redisClient.set(fileNameWithoutExtension, filePath, redis.print);
+    redisClient.set(fileNameWithoutExtension, fileOriginalName, redis.print);
     redisClient.quit();
 
-    res.json( {status: `"${originalFileName} saved!"`} );
+    res.json( {saved: 1} );
 });
 
 router.post('/search', (req, res) => {
@@ -69,14 +67,14 @@ router.post('/search', (req, res) => {
     redisClient.keysAsync('*')
         .then(keys => {
             redisClient.quit();
-            const matchingKeys = keys.filter(value => value.includes(searchString));
+            const matchingKeys = keys.filter(value => value.toLowerCase().includes(searchString.toLowerCase()));
             const matchingKeysJson = JSON.stringify(matchingKeys);
             res.json({ names: matchingKeysJson });
         })
         .catch(error => {
+            redisClient.quit();
             console.error(error);
-            const responseError = makeInternalError();
-            return res.json(responseError);
+            return res.status(500).send(error);
         });
 });
 

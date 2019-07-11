@@ -8,6 +8,10 @@ class UploadPage extends Component {
         this.onFileChanged = this.onFileChanged.bind(this);
 
         this.file = null;
+
+        this.state = {
+            saved: null
+        }
     }
 
     uploadFile() {
@@ -24,7 +28,11 @@ class UploadPage extends Component {
                 body: formData
             })
             .then(response => response.json())
-            .then(responseJson => console.log(responseJson))
+            .then(responseJson => {
+                console.log(responseJson);
+                const saved = responseJson.saved;
+                this.setState({ saved: saved });
+            })
             .catch(console.error);
     }
 
@@ -33,6 +41,15 @@ class UploadPage extends Component {
     }
 
     render() {
+        const { saved } = this.state;
+        let saveStatus;
+        if (saved === null) {
+            saveStatus = <React.Fragment />;
+        } else if (saved) {
+            saveStatus = <p>Save Success!</p>;
+        } else {
+            saveStatus = <p>Save Failed!</p>;
+        }
         return (
             <div>
                 <FileUploadForm
@@ -40,6 +57,7 @@ class UploadPage extends Component {
                     uploadFile={this.uploadFile}
                     onFileChanged={this.onFileChanged}
                 />
+                {saveStatus}
             </div>
         );
     }
